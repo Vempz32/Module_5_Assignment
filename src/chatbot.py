@@ -16,8 +16,56 @@ ACCOUNTS = {
 VALID_TASKS = {"balance", "deposit", "exit"}
 
 ## CODE REQUIRED FUNCTIONS STARTING HERE:
+def get_account() -> int:
+    """
+    Prompts the user to enter their account number and checks if it's valid.
+    Returns the account number if valid, otherwise returns None.
+    Raises ValueError for invalid inputs.
+    """
+    try:
+        account_number = input("Please enter your account number: ")
+        
+        # Check if the input is a digit (whole number)
+        if not account_number.isdigit():
+            raise ValueError("Account number must be a whole number.")
+        
+        # Convert the account number to an integer
+        account_number = int(account_number)
+        
+        # Check if the account number exists in the ACCOUNTS dictionary
+        if account_number in ACCOUNTS:
+            return account_number
+        else:
+            raise ValueError("Account number entered does not exist.")
+    
+    except ValueError as e:
+        print(e)
+        return None
+def get_amount() -> float:
+    """
+    Prompts the user to enter a transaction amount, validates it, and returns it as a float.
+    
+    Raises:
+        ValueError: If the amount is non-numeric or negative.
+    """
+    try:
+        transaction_amount =  input("Please enter the transaction amount: ")
+        if transaction_amount > 0 :
+            return
+        if transaction_amount.isnumeric():
+            raise ValueError("Invalid Amount. Amount must be numeric")
+        if transaction_amount <  0 :
+            raise ValueError("Invalid amount. Please enter a positive number.")
+    except ValueError as e:
+        print(e)
+        return None  # Return None to indicate failure
+
+        
+    
+
 
 ## GIVEN CHATBOT FUNCTION
+get_account()
 ## REQUIRES REVISION
 """
 def chatbot():
