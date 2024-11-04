@@ -9,6 +9,7 @@ import unittest
 from unittest.mock import patch
 from src.chatbot import get_account, get_amount, ACCOUNTS
 from src.chatbot import get_balance, ACCOUNTS
+from src.chatbot import get_account, get_amount, get_balance, make_deposit
 class TestGetAccount(unittest.TestCase):
     @patch("builtins.input")
     def test_valid_account_number(self, mock_input):
@@ -105,6 +106,37 @@ class TestGetBalance(unittest.TestCase):
 
         # Verify that the correct message is included in the raised exception
         self.assertEqual(str(context.exception), "Account number does not exist.")
+
+class TestMakeDeposit(unittest.TestCase):
+    def test_valid_deposit(self):
+        # Arrange
+        account = 123456
+        original_balance = ACCOUNTS[account]["balance"]  # Get the original balance
+        deposit_amount = 1500.0
+        
+        # Act
+        result = make_deposit(account, deposit_amount)
+        
+        # Assert
+        expected_message = f"You have made a deposit of ${deposit_amount:,.2f} to account {account}."
+        self.assertEqual(result, expected_message)  # Verify the message returned
+        
+        # Verify that the balance has been updated correctly
+        self.assertEqual(ACCOUNTS[account]["balance"], original_balance + deposit_amount)
+
+    def test_invalid_deposit(self):
+        # Arrange
+        account = 123456
+        
+        # Act & Assert
+        with self.assertRaises(ValueError) as context:
+            make_deposit(account, -500.0)  # Attempt to deposit a negative amount
+        
+        # Verify that the correct message is included in the raised exception
+        self.assertEqual(str(context.exception), "Invalid amount. Please enter a positive number.")
+        
+        if __name__ == "__main__":
+            unittest.main()
 
 
                 
