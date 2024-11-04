@@ -46,19 +46,28 @@ def get_amount() -> float:
     Prompts the user to enter a transaction amount, validates it, and returns it as a float.
     
     Raises:
-        ValueError: If the amount is non-numeric or negative.
+        ValueError: If the amount is non-numeric or a negative number.
     """
     try:
-        transaction_amount =  input("Please enter the transaction amount: ")
-        if transaction_amount > 0 :
-            return
-        if transaction_amount.isnumeric():
-            raise ValueError("Invalid Amount. Amount must be numeric")
-        if transaction_amount <  0 :
+        transaction_amount = input("Please enter the transaction amount: ")
+        
+        # Check if the amount is numeric (including handling decimal values)
+        if not transaction_amount.replace('.', '', 1).isdigit():
+            raise ValueError("Invalid amount. Amount must be numeric.")
+
+        # Convert to float
+        transaction_amount = float(transaction_amount)
+
+        # Check if the amount is positive
+        if transaction_amount < 0:
             raise ValueError("Invalid amount. Please enter a positive number.")
+
+        return transaction_amount
+
     except ValueError as e:
         print(e)
         return None  # Return None to indicate failure
+
 
         
     
