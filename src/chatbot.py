@@ -68,13 +68,32 @@ def get_amount() -> float:
         print(e)
         return None  # Return None to indicate failure
 
+def get_balance(account :  int) -> str:
+    """
+    gets the balance of the  account and returns it as a string.
+
+    Args:
+       Account balance
+
+    Returns:
+        A message indicating the balance of the account.
+
+    """
+    if account not in ACCOUNTS:
+            raise ValueError("Account number does not exist.")
+        
+    balance = ACCOUNTS[account]["balance"]
+    
+    return f'Your current balance for account {account} is ${balance:,.2f}.'
+        
+
 
         
     
 
 
 ## GIVEN CHATBOT FUNCTION
-get_account()
+
 ## REQUIRES REVISION
 """
 def chatbot():

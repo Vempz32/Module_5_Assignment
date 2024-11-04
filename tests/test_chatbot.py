@@ -8,7 +8,7 @@ Usage: Run this file to execute unit tests for chatbot functions.
 import unittest
 from unittest.mock import patch
 from src.chatbot import get_account, get_amount, ACCOUNTS
-
+from src.chatbot import get_balance, ACCOUNTS
 class TestGetAccount(unittest.TestCase):
     @patch("builtins.input")
     def test_valid_account_number(self, mock_input):
@@ -81,5 +81,35 @@ class TestGetAmount(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+    
 
+class TestGetBalance(unittest.TestCase):
+    def test_valid_balance(self):
+        # Arrange
+        account = 123456  # Valid account number
+        expected_message = 'Your current balance for account 123456 is $1,000.00.'  # Expected output
+
+        # Act
+        result = get_balance(account)  # Call the function
+
+        # Assert
+        self.assertEqual(result, expected_message)  # Verify the result matches expected output
+
+    def test_account_not_exist(self):
+        # Arrange
+        account = 112233  # Non-existent account number
+        
+        # Act & Assert
+        with self.assertRaises(ValueError) as context:
+            get_balance(account)  # Call the function which should raise ValueError
+
+        # Verify that the correct message is included in the raised exception
+        self.assertEqual(str(context.exception), "Account number does not exist.")
+
+
+                
+
+
+
+    
 
